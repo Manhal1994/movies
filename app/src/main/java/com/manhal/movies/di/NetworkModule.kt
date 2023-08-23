@@ -84,5 +84,11 @@ object NetworkModule {
     return retrofit.create(GenreService::class.java)
   }
 
+  @Provides
+  @Singleton
+  fun provideMovieDetailService(retrofit: Retrofit): MovieDetailService {
+    return retrofit.create(MovieDetailService::class.java)
+  }
+
 
 }

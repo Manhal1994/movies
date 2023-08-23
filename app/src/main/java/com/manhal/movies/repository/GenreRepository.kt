@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.onCompletion
 class GenreRepository constructor(
     private val genreService: GenreService,
     private val genreDao: GenreDao
-) {
+):Repository {
     @WorkerThread
     fun loadGenreList(success: () -> Unit, error: () -> Unit) = flow<List<Genre>> {
         val genres = genreDao.getGenreList()

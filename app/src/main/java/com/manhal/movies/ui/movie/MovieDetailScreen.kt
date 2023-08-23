@@ -1,16 +1,14 @@
 package com.manhal.movies.ui.movie
+
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -27,10 +25,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -41,7 +42,9 @@ import com.skydoves.landscapist.palette.BitmapPalette
 import com.manhal.movies.models.Keyword
 import com.manhal.movies.models.Review
 import com.manhal.movies.models.Video
+import com.manhal.movies.models.entities.Genre
 import com.manhal.movies.models.entities.Movie
+import com.manhal.movies.models.entities.MovieDetail
 import com.manhal.movies.network.Api
 import com.manhal.movies.network.compose.NetworkImage
 import com.manhal.movies.ui.custom.AppBarWithArrow
@@ -77,7 +80,17 @@ fun MovieDetailScreen(
 
         MovieDetailVideos(viewModel)
 
-        MovieDetailSummary(viewModel)
+        MovieDetailGenres(viewModel)
+
+        MovieDetailOverview(viewModel)
+
+        MovieHomepage(viewModel)
+
+        MovieStatus(viewModel)
+
+        MovieRunTime(viewModel)
+
+        MovieBudget(viewModel)
 
         MovieRevenue(viewModel)
 
@@ -148,6 +161,7 @@ private fun MovieDetailHeader(
                 .height(15.dp)
                 .align(Alignment.CenterHorizontally)
         )
+
     }
 }
 
@@ -287,7 +301,40 @@ private fun VideoThumbnail(
 }
 
 @Composable
-private fun MovieDetailSummary(
+private fun MovieDetailGenres(
+    viewModel: MovieDetailViewModel
+) {
+    val movieDetail: MovieDetail? by viewModel.movieDetailFlow.collectAsState(initial = null)
+    if (movieDetail != null) {
+
+        Column {
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text(
+                text = stringResource(R.string.genres),
+                style = MaterialTheme.typography.h6,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+            FlowRow {
+                movieDetail!!.genres.forEach {
+                    Genre(it)
+                }
+            }
+        }
+
+    }
+}
+
+
+@Composable
+private fun MovieDetailOverview(
     viewModel: MovieDetailViewModel
 ) {
     val movie: Movie? by viewModel.movieFlow.collectAsState(initial = null)
@@ -300,7 +347,7 @@ private fun MovieDetailSummary(
             Spacer(modifier = Modifier.height(23.dp))
 
             Text(
-                text = stringResource(R.string.summary),
+                text = stringResource(R.string.overview),
                 style = MaterialTheme.typography.h6,
                 color = Color.White,
                 maxLines = 1,
@@ -357,15 +404,37 @@ private fun Keyword(keyword: Keyword) {
 }
 
 @Composable
-private fun MovieRevenue(viewModel: MovieDetailViewModel){
-    val revenue by viewModel.revenue.collectAsState(initial = null)
-    revenue.let {
+private fun Genre(genre: Genre) {
+    Surface(
+        shape = RoundedCornerShape(32.dp),
+        border = BorderStroke(width = 0.8.dp, color = Color.White),
+        elevation = 8.dp,
+        color = Color.Transparent,
+        modifier = Modifier.padding(8.dp)
+    ) {
+
+        Text(
+            text = genre.name,
+            style = MaterialTheme.typography.body1,
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+        )
+    }
+}
+
+@Composable
+private fun MovieHomepage(viewModel: MovieDetailViewModel) {
+    val movieDetail by viewModel.movieDetailFlow.collectAsState(initial = null)
+    if (movieDetail != null) {
+        val uriHandler = LocalUriHandler.current
         Column {
 
             Spacer(modifier = Modifier.height(23.dp))
 
             Text(
-                text = "Revenue",
+                text = stringResource(R.string.homepage),
                 style = MaterialTheme.typography.h6,
                 color = Color.White,
                 maxLines = 1,
@@ -380,66 +449,244 @@ private fun MovieRevenue(viewModel: MovieDetailViewModel){
             Box(
 
                 modifier = Modifier
-                    .padding(horizontal = 15.dp)) {
-
-                        Text(
-
-                            text = "${"%,d".format(it)} $",
-                            color = Color.White,
-
-                            )
-                        Spacer(modifier = Modifier.width(4.dp))
+                    .padding(horizontal = 15.dp)
+                    .clickable {
+                        uriHandler.openUri(movieDetail!!.homepage)
 
 
-                }
+                    }) {
+
+                Text(
+                    text = movieDetail!!.homepage,
+                    color = Color.White,
+                    style = TextStyle(
+                        textDecoration = TextDecoration.Underline
+                    )
+
+                )
+                Spacer(modifier = Modifier.width(4.dp))
+
+
             }
-
         }
+
     }
+}
+
+@Composable
+private fun MovieBudget(viewModel: MovieDetailViewModel) {
+    val movieDetail by viewModel.movieDetailFlow.collectAsState(initial = null)
+    if (movieDetail != null) {
+        Column {
+
+            Spacer(modifier = Modifier.height(23.dp))
+
+            Text(
+                text = stringResource(R.string.budget),
+                style = MaterialTheme.typography.h6,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Box(
+
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+            ) {
+
+                Text(
+
+                    text = "${"%,d".format(movieDetail!!.budget)} $",
+                    color = Color.White,
+
+                    )
+                Spacer(modifier = Modifier.width(4.dp))
 
 
+            }
+        }
+
+    }
+}
+
+@Composable
+private fun MovieRunTime(viewModel: MovieDetailViewModel) {
+    val movieDetail by viewModel.movieDetailFlow.collectAsState(initial = null)
+    if (movieDetail != null) {
+        val hours = movieDetail!!.runtime / 60
+        val minutes = movieDetail!!.runtime - hours * 60
+        Column {
+
+            Spacer(modifier = Modifier.height(23.dp))
+
+            Text(
+                text = stringResource(R.string.runtime),
+                style = MaterialTheme.typography.h6,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Box(
+
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+            ) {
+
+                Text(
+
+                    text = "${hours}h ${minutes}m",
+                    color = Color.White,
+
+                    )
+                Spacer(modifier = Modifier.width(4.dp))
+
+
+            }
+        }
+
+    }
+}
+
+@Composable
+private fun MovieRevenue(viewModel: MovieDetailViewModel) {
+    val movieDetail by viewModel.movieDetailFlow.collectAsState(initial = null)
+    if (movieDetail != null) {
+        Column {
+
+            Spacer(modifier = Modifier.height(23.dp))
+
+            Text(
+                text = stringResource(R.string.revenue),
+                style = MaterialTheme.typography.h6,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Box(
+
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+            ) {
+
+                Text(
+
+                    text = "${"%,d".format(movieDetail!!.revenue)} $",
+                    color = Color.White,
+
+                    )
+                Spacer(modifier = Modifier.width(4.dp))
+
+
+            }
+        }
+
+    }
+}
+
+@Composable
+private fun MovieStatus(viewModel: MovieDetailViewModel) {
+    val movieDetail by viewModel.movieDetailFlow.collectAsState(initial = null)
+    if (movieDetail != null) {
+        Column {
+
+            Spacer(modifier = Modifier.height(23.dp))
+
+            Text(
+                text = stringResource(R.string.status),
+                style = MaterialTheme.typography.h6,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Box(
+
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+            ) {
+
+                Text(
+
+                    text = movieDetail!!.status,
+                    color = Color.White,
+
+                    )
+                Spacer(modifier = Modifier.width(4.dp))
+
+
+            }
+        }
+
+    }
+}
 
 @Composable
 private fun MovieDetailLanguages(
     viewModel: MovieDetailViewModel
 ) {
-    val spokenLanguages by viewModel.spokenLanguages.collectAsState(initial = null)
-    Column {
+    val movieDetail by viewModel.movieDetailFlow.collectAsState(initial = null)
+    if (movieDetail != null) {
+        Column {
 
-        Spacer(modifier = Modifier.height(23.dp))
+            Spacer(modifier = Modifier.height(23.dp))
 
-        Text(
-            text = "Languages",
-            style = MaterialTheme.typography.h6,
-            color = Color.White,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 15.dp)
-        )
-        Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = stringResource(R.string.languages),
+                style = MaterialTheme.typography.h6,
+                color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp)
+            )
+            Spacer(modifier = Modifier.height(12.dp))
 
-       Box(
+            Box(
 
-           modifier = Modifier
-           .padding(horizontal = 15.dp)) {
-           Row() {
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+            ) {
+                Row() {
 
-               spokenLanguages?.forEach {
-                   Text(
+                    movieDetail!!.spoken_languages.forEach {
+                        Text(
 
-                       text = it.english_name,
-                       color = Color.White,
+                            text = "${it.english_name} ",
+                            color = Color.White,
 
-                       )
-                   Spacer(modifier = Modifier.width(4.dp))
-               }
+                            )
+                        Spacer(modifier = Modifier.width(4.dp))
+                    }
 
-           }
-       }
+                }
+            }
 
+        }
     }
 
 }

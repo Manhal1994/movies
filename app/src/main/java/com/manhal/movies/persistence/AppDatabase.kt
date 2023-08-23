@@ -8,7 +8,7 @@ import com.manhal.movies.models.entities.*
 import com.manhal.movies.persistence.converters.*
 
 @Database(
-  entities = [(Movie::class),(Genre::class),(MovieGenre::class)],
+  entities = [(Movie::class),(Genre::class),(MovieGenre::class),(MovieDetail::class)],
   version = 3, exportSchema = false
 )
 @TypeConverters(
@@ -18,13 +18,15 @@ import com.manhal.movies.persistence.converters.*
       (VideoListConverter::class),
       (ReviewListConverter::class),
       (SpokenLanguageListConverter::class),
-      (IntListConverter::class)
+      (IntListConverter::class),
+      (GenreConverter::class)
   ]
 )
 abstract class AppDatabase : RoomDatabase() {
   abstract fun movieDao(): MovieDao
   abstract fun genreDao(): GenreDao
+  abstract fun movieGenreDao() : MovieGenreDao
+  abstract fun movieDetailDao() : MovieDetailDao
 
-  abstract  fun movieGenreDao() : MovieGenreDao
 
 }

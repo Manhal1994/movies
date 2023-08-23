@@ -42,5 +42,14 @@ object RepositoryModule {
     return GenreRepository(genreService, genreDao)
   }
 
+  @Provides
+  @ViewModelScoped
+  fun provideMovieDetailRepository(
+    movieDetailService: MovieDetailService,
+    movieDetailDao: MovieDetailDao
+  ): MovieDetailRepository {
+    return MovieDetailRepository(movieDetailService, movieDetailDao)
+  }
+
 
 }

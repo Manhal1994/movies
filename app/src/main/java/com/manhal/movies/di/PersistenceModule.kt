@@ -42,6 +42,12 @@ object PersistenceModule {
     return appDatabase.movieGenreDao()
   }
 
+  @Provides
+  @Singleton
+  fun provideMovieDetailDao(appDatabase: AppDatabase): MovieDetailDao {
+    return appDatabase.movieDetailDao()
+  }
+
 
 
 }
