@@ -1,6 +1,7 @@
 package com.manhal.movies.repository
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.annotation.WorkerThread
 import com.manhal.movies.models.entities.MovieGenre
 import com.manhal.movies.network.service.TheDiscoverService
@@ -68,6 +69,7 @@ class DiscoverRepository constructor(
       ids.add(it.toString())
     }
     val movies = movieDao.searchByTitleAndGenre(title,ids)
+    Log.d("result size", "${movies.size} ")
     emit(movies)
   }.onCompletion { success() }.flowOn(Dispatchers.IO)
 

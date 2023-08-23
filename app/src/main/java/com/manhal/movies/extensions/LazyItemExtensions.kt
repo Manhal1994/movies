@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 inline fun <T> LazyListScope.paging(
   items: List<T>,
   currentIndexFlow: StateFlow<Int>,
-  threshold: Int = 4,
+  threshold: Int = 0,
   pageSize: Int = Api.PAGING_SIZE,
 
   crossinline fetch: () -> Unit,
