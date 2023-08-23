@@ -124,6 +124,7 @@ private fun MovieDetailHeader(
             },
             modifier = Modifier
                 .height(280.dp)
+
         )
 
         Spacer(modifier = Modifier.height(25.dp))

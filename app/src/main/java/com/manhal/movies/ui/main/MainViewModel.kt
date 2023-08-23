@@ -35,10 +35,12 @@ class MainViewModel @Inject constructor(
   val movieLoadingState: State<NetworkState> get() = _movieLoadingState
 
   private val _genreLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.IDLE)
-  val genreLoadingState: State<NetworkState> get() = _genreLoadingState
 
   val movies: State<MutableList<Movie>> = mutableStateOf(mutableListOf())
   val moviePageStateFlow: MutableStateFlow<Int> = MutableStateFlow(1)
+
+  val searchResult: MutableStateFlow<List<Movie>> = MutableStateFlow(mutableListOf())
+
 
   private val _genres: MutableStateFlow<List<Genre>> = MutableStateFlow(mutableListOf<Genre>())
   val genres: MutableStateFlow<List<Genre>> =_genres
@@ -48,6 +50,9 @@ class MainViewModel @Inject constructor(
   val selectedGenres = arrayListOf<Int>()
 
   val genresVisibility :MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+  val searchActive :MutableStateFlow<Boolean> = MutableStateFlow(false)
+
 
 
 
@@ -93,23 +98,24 @@ class MainViewModel @Inject constructor(
   }
 
   fun searchMovies(name:String) {
-    viewModelScope.launch(Dispatchers.IO) {
-      genresVisibility.value = true
-      _movieLoadingState.value = NetworkState.LOADING
-      if (selectedGenres.isEmpty()) {
-        discoverRepository.searchMovies(name,
-          success = { _movieLoadingState.value = NetworkState.SUCCESS },
-          error = { _movieLoadingState.value = NetworkState.ERROR }).collectLatest {
-          movies.value.clear()
-          movies.value.addAll(it)
-        }
-      } else {
-        discoverRepository.searchMoviesWithGenre(name,
-          selectedGenres,
-          success = { _movieLoadingState.value = NetworkState.SUCCESS },
-          error = { _movieLoadingState.value = NetworkState.ERROR }).collectLatest {
-          movies.value.clear()
-          movies.value.addAll(it)
+    if(name.trim().isNotEmpty()) {
+      viewModelScope.launch(Dispatchers.IO){
+        searchActive.value = true
+        genresVisibility.value = true
+        _movieLoadingState.value = NetworkState.LOADING
+        if (selectedGenres.isEmpty()) {
+          discoverRepository.searchMovies(name.trim(),
+            success = { _movieLoadingState.value = NetworkState.SUCCESS },
+            error = { _movieLoadingState.value = NetworkState.ERROR }).collectLatest {
+            searchResult.value=it
+          }
+        } else {
+          discoverRepository.searchMoviesWithGenre(name.trim(),
+            selectedGenres,
+            success = { _movieLoadingState.value = NetworkState.SUCCESS },
+            error = { _movieLoadingState.value = NetworkState.ERROR }).collectLatest {
+            searchResult.value = it
+          }
         }
       }
     }

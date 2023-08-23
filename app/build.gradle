@@ -107,6 +107,8 @@ dependencies {
 
   // compose image loading
   implementation "com.github.skydoves:landscapist-coil:$versions.landscapistVersion"
+//  implementation("io.coil-kt:coil-compose:2.2.0")
+
 
   // compose insets
   implementation "com.google.accompanist:accompanist-insets:$versions.accompanistVersion"
