@@ -14,7 +14,7 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.MovieCompose.NoActionBar">
     <activity
-      android:name="com.manhal.movies.ui.main.MainActivity"
+      android:name="com.manhal.movies.ui.MainActivity"
       android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />

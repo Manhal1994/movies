@@ -48,10 +48,6 @@ fun MovieScreen(
     val genresVisibility = viewModel.genresVisibility.collectAsState()
 
 
-
-
-
-
     Column {
         val textState = remember { mutableStateOf("") }
 

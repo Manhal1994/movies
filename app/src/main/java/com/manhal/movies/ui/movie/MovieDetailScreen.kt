@@ -2,7 +2,6 @@ package com.manhal.movies.ui.movie
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -33,10 +32,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.palette.graphics.Palette
 import com.google.accompanist.flowlayout.FlowRow
+import com.manhal.movies.formatToThreeDotDigit
+import com.manhal.movies.fromMinToHourMinStyle
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.palette.BitmapPalette
 import com.manhal.movies.models.Keyword
@@ -502,10 +506,12 @@ private fun MovieBudget(viewModel: MovieDetailViewModel) {
 
                 Text(
 
-                    text = "${"%,d".format(movieDetail!!.budget)} $",
+                    text = "${formatToThreeDotDigit(movieDetail!!.budget)} $",
                     color = Color.White,
+                    letterSpacing = 1.1f.sp
 
-                    )
+
+                )
                 Spacer(modifier = Modifier.width(4.dp))
 
 
@@ -519,8 +525,7 @@ private fun MovieBudget(viewModel: MovieDetailViewModel) {
 private fun MovieRunTime(viewModel: MovieDetailViewModel) {
     val movieDetail by viewModel.movieDetailFlow.collectAsState(initial = null)
     if (movieDetail != null) {
-        val hours = movieDetail!!.runtime / 60
-        val minutes = movieDetail!!.runtime - hours * 60
+
         Column {
 
             Spacer(modifier = Modifier.height(23.dp))
@@ -546,7 +551,7 @@ private fun MovieRunTime(viewModel: MovieDetailViewModel) {
 
                 Text(
 
-                    text = "${hours}h ${minutes}m",
+                    text = fromMinToHourMinStyle(movieDetail!!.runtime),
                     color = Color.White,
 
                     )
@@ -588,10 +593,11 @@ private fun MovieRevenue(viewModel: MovieDetailViewModel) {
 
                 Text(
 
-                    text = "${"%,d".format(movieDetail!!.revenue)} $",
+                    text = "${formatToThreeDotDigit(movieDetail!!.revenue)} $",
                     color = Color.White,
+                    letterSpacing = 1.1f.sp
 
-                    )
+                )
                 Spacer(modifier = Modifier.width(4.dp))
 
 

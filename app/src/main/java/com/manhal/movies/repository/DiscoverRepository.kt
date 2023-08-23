@@ -69,7 +69,6 @@ class DiscoverRepository constructor(
       ids.add(it.toString())
     }
     val movies = movieDao.searchByTitleAndGenre(title,ids)
-    Log.d("result size", "${movies.size} ")
     emit(movies)
   }.onCompletion { success() }.flowOn(Dispatchers.IO)
 
