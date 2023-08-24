@@ -24,7 +24,7 @@ import com.manhal.movies.ui.home.MovieScreen
 import com.manhal.movies.ui.movie.MovieDetailScreen
 import com.manhal.movies.ui.navigation.NavScreen
 import com.manhal.movies.ui.theme.purple200
-import com.skydoves.movies.R
+import com.manhal.movies.R
 
 
 @Composable

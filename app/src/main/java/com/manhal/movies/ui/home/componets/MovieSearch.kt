@@ -1,4 +1,4 @@
-package com.manhal.movies.ui.main
+package com.manhal.movies.ui.home.componets
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.manhal.movies.ui.main.MainViewModel
 
 @Composable
 fun MovieSearch(textState: MutableState<String>, viewModel: MainViewModel) {

@@ -1,4 +1,4 @@
-package com.manhal.movies.ui.home
+package com.manhal.movies.ui.home.componets
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

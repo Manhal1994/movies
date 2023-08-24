@@ -1,4 +1,4 @@
-package com.manhal.movies.ui.movie
+package com.manhal.movies.ui.movie.componets
 
 import android.content.Intent
 import android.net.Uri
@@ -28,7 +28,7 @@ import com.manhal.movies.models.Video
 import com.manhal.movies.network.Api
 import com.manhal.movies.network.compose.NetworkImage
 import com.skydoves.landscapist.palette.BitmapPalette
-import com.skydoves.movies.R
+import com.manhal.movies.R
 
 @Composable
 fun VideoThumbnail(

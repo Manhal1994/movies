@@ -1,4 +1,4 @@
-package com.manhal.movies.ui.movie
+package com.manhal.movies.ui.movie.componets
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -14,7 +14,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.manhal.movies.formatToThreeDotDigit
-import com.skydoves.movies.R
+import com.manhal.movies.R
+import com.manhal.movies.ui.movie.MovieDetailViewModel
 
 @Composable
 fun MovieBudget(viewModel: MovieDetailViewModel) {

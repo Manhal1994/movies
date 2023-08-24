@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
 import com.manhal.movies.models.entities.MovieDetail
-import com.skydoves.movies.R
+import com.manhal.movies.R
 
 @Composable
  fun MovieDetailGenres(

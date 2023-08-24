@@ -1,4 +1,4 @@
-package com.manhal.movies.ui.home
+package com.manhal.movies.ui.home.componets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.statusBarsPadding
 import com.manhal.movies.extensions.paging
 import com.manhal.movies.models.entities.Movie
+import com.manhal.movies.ui.home.componets.MoviePoster
 import com.manhal.movies.ui.main.MainViewModel
 
 @Composable

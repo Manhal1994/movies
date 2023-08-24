@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.manhal.movies.models.entities.Movie
 import com.manhal.movies.ui.custom.AppBarWithArrow
+import com.manhal.movies.ui.movie.componets.*
 import com.manhal.movies.ui.theme.background
 
 

@@ -2,7 +2,8 @@
 package com.manhal.movies.network.compose
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.skydoves.movies.R
+import com.manhal.movies.R
+
 
 class NetworkUrlPreviewProvider : PreviewParameterProvider<Int> {
   override val count: Int

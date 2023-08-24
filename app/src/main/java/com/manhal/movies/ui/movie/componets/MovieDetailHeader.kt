@@ -1,4 +1,4 @@
-package com.manhal.movies.ui.movie
+package com.manhal.movies.ui.movie.componets
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -16,6 +16,7 @@ import com.manhal.movies.models.entities.Movie
 import com.manhal.movies.network.Api
 import com.manhal.movies.network.compose.NetworkImage
 import com.manhal.movies.ui.custom.RatingBar
+import com.manhal.movies.ui.movie.MovieDetailViewModel
 import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.palette.BitmapPalette
 

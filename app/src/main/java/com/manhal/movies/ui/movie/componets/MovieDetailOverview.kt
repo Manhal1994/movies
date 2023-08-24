@@ -1,4 +1,4 @@
-package com.manhal.movies.ui.movie
+package com.manhal.movies.ui.movie.componets
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -14,7 +14,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
 import com.manhal.movies.models.entities.Movie
-import com.skydoves.movies.R
+import com.manhal.movies.R
+import com.manhal.movies.ui.movie.Keyword
+import com.manhal.movies.ui.movie.MovieDetailViewModel
 import com.skydoves.whatif.whatIfNotNullOrEmpty
 
 @Composable

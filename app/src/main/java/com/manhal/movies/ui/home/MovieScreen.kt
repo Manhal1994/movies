@@ -12,8 +12,10 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.statusBarsPadding
 import com.manhal.movies.models.network.NetworkState
 import com.manhal.movies.models.network.onLoading
+import com.manhal.movies.ui.home.componets.MovieList
+import com.manhal.movies.ui.home.componets.MoviePoster
+import com.manhal.movies.ui.home.componets.MovieSearch
 import com.manhal.movies.ui.main.MainViewModel
-import com.manhal.movies.ui.main.MovieSearch
 
 
 @Composable
