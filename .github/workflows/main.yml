@@ -27,10 +27,10 @@ jobs:
         run: ./gradlew build -x lint
 
 
-      - name: build release
-        run: ./gradlew assembleRelease
+      - name: build debug
+        run: ./gradlew
       - name: list files
-        run: ls -lrt app/build/outputs/apk/release
+        run: ls -lrt app/build/outputs/apk/debug
 
       - name: upload artifact to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1.3.3

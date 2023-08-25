@@ -43,6 +43,7 @@ android {
         arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
       }
     }
+    
   }
 
   lintOptions {
