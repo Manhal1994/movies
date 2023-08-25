@@ -22,33 +22,33 @@ import androidx.compose.ui.unit.dp
 import com.manhal.movies.ui.main.MainViewModel
 
 @Composable
-fun MovieSearch(textState: MutableState<String>, viewModel: MainViewModel) {
-  return Box(
-    modifier = Modifier
-      .fillMaxWidth()
-      .padding(horizontal = 8.dp)
-      .border(1.dp, Color.Black, shape = RoundedCornerShape(6.dp))
+fun MovieSearch(text: String, viewModel: MainViewModel, onChange: (String) -> Unit) {
+    return Box(
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 8.dp)
+          .border(1.dp, Color.Black, shape = RoundedCornerShape(6.dp))
 
-  ) {
-    TextField(
-      value = textState.value,
-      onValueChange = {
-        textState.value = it
-        viewModel.searchMovies(textState.value)
-      },
-      placeholder = { Text("Search") },
-      leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-      modifier = Modifier
-        .fillMaxWidth()
-        .onFocusChanged {
-        },
-      colors = TextFieldDefaults.textFieldColors(
-        backgroundColor = Color.White,
-        focusedIndicatorColor = Color.Transparent,
-        unfocusedIndicatorColor = Color.Transparent,
-        disabledIndicatorColor = Color.Transparent
-      ),
+    ) {
+        TextField(
+            value = text,
+            onValueChange = {
+                onChange(it)
+                viewModel.searchMovies(text)
+            },
+            placeholder = { Text("Search") },
+            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+            modifier = Modifier
+              .fillMaxWidth()
+              .onFocusChanged {
+              },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.White,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            ),
 
-    )
-  }
+            )
+    }
 }

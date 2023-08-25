@@ -25,100 +25,100 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-  val imageLoader: ImageLoader,
-  private val discoverRepository: DiscoverRepository,
-  private val genreRepository: GenreRepository,
+    val imageLoader: ImageLoader,
+    private val discoverRepository: DiscoverRepository,
+    private val genreRepository: GenreRepository,
 
-) : ViewModel() {
+    ) : ViewModel() {
 
-  private val _movieLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.IDLE)
-  val movieLoadingState: State<NetworkState> get() = _movieLoadingState
+    private val _movieLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.IDLE)
+    val movieLoadingState: State<NetworkState> get() = _movieLoadingState
 
-  private val _genreLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.IDLE)
+    val searchText: MutableStateFlow<String> = MutableStateFlow<String>("")
 
-  val movies: State<MutableList<Movie>> = mutableStateOf(mutableListOf())
-  val moviePageStateFlow: MutableStateFlow<Int> = MutableStateFlow(1)
+    val movies: State<MutableList<Movie>> = mutableStateOf(mutableListOf())
+    val moviePageStateFlow: MutableStateFlow<Int> = MutableStateFlow(1)
 
-  val searchResult: MutableStateFlow<List<Movie>> = MutableStateFlow(mutableListOf())
+    val searchResult: MutableStateFlow<List<Movie>> = MutableStateFlow(mutableListOf())
 
-  private val _genres: MutableStateFlow<List<Genre>> = MutableStateFlow(mutableListOf<Genre>())
-  val genres: MutableStateFlow<List<Genre>> = _genres
+    private val _genres: MutableStateFlow<List<Genre>> = MutableStateFlow(mutableListOf<Genre>())
+    val genres: MutableStateFlow<List<Genre>> = _genres
 
-  val selectedGenresStateFlow: MutableStateFlow<List<Int>> = MutableStateFlow(mutableListOf())
+    val selectedGenresStateFlow: MutableStateFlow<List<Int>> = MutableStateFlow(mutableListOf())
 
-  val selectedGenres = arrayListOf<Int>()
+    val selectedGenres = arrayListOf<Int>()
 
-  val genresVisibility: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val genresVisibility: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-  val searchActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val searchActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-  private val newMovieFlow = moviePageStateFlow.flatMapLatest {
-    _movieLoadingState.value = NetworkState.LOADING
-    discoverRepository.loadMovies(
-      page = it,
-      success = { _movieLoadingState.value = NetworkState.SUCCESS },
-      error = { _movieLoadingState.value = NetworkState.ERROR }
-    )
-  }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
-
-  init {
-    viewModelScope.launch(Dispatchers.IO) {
-      newMovieFlow.collectLatest {
-        movies.value.addAll(it)
-      }
-    }
-    viewModelScope.launch(Dispatchers.IO) {
-
-      genreRepository.loadGenreList(
-        success = {
-        },
-        error = {
-        }
-      ).collectLatest {
-        _genres.value = it
-      }
-    }
-  }
-
-  fun toggleGenreFilter(id: Int) {
-    if (selectedGenres.contains(id)) {
-      selectedGenres.remove(id)
-    } else {
-      selectedGenres.add(id)
-    }
-    selectedGenresStateFlow.value = selectedGenres.toList()
-  }
-
-  fun searchMovies(name: String) {
-    if (name.trim().isNotEmpty()) {
-      viewModelScope.launch(Dispatchers.IO) {
-        searchActive.value = true
-        genresVisibility.value = true
+    private val newMovieFlow = moviePageStateFlow.flatMapLatest {
         _movieLoadingState.value = NetworkState.LOADING
-        if (selectedGenres.isEmpty()) {
-          discoverRepository.searchMovies(
-            name.trim(),
+        discoverRepository.loadMovies(
+            page = it,
             success = { _movieLoadingState.value = NetworkState.SUCCESS },
             error = { _movieLoadingState.value = NetworkState.ERROR }
-          ).collectLatest {
-            searchResult.value = it
-          }
-        } else {
-          discoverRepository.searchMoviesWithGenre(
-            name.trim(),
-            selectedGenres,
-            success = { _movieLoadingState.value = NetworkState.SUCCESS },
-            error = { _movieLoadingState.value = NetworkState.ERROR }
-          ).collectLatest {
-            searchResult.value = it
-          }
+        )
+    }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
+
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            newMovieFlow.collectLatest {
+                movies.value.addAll(it)
+            }
         }
-      }
+        viewModelScope.launch(Dispatchers.IO) {
+
+            genreRepository.loadGenreList(
+                success = {
+                },
+                error = {
+                }
+            ).collectLatest {
+                _genres.value = it
+            }
+        }
     }
-  }
-  fun fetchNextMoviePage() {
-    if (movieLoadingState.value != NetworkState.LOADING) {
-      moviePageStateFlow.value++
+
+    fun toggleGenreFilter(id: Int) {
+        if (selectedGenres.contains(id)) {
+            selectedGenres.remove(id)
+        } else {
+            selectedGenres.add(id)
+        }
+        selectedGenresStateFlow.value = selectedGenres.toList()
     }
-  }
+
+    fun searchMovies(name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            searchActive.value = true
+            genresVisibility.value = true
+            _movieLoadingState.value = NetworkState.LOADING
+            if (selectedGenres.isEmpty()) {
+                discoverRepository.searchMovies(
+                    name.trim(),
+                    success = { _movieLoadingState.value = NetworkState.SUCCESS },
+                    error = { _movieLoadingState.value = NetworkState.ERROR }
+                ).collectLatest {
+                    searchResult.value = it
+                }
+            } else {
+                discoverRepository.searchMoviesWithGenre(
+                    name.trim(),
+                    selectedGenres,
+                    success = { _movieLoadingState.value = NetworkState.SUCCESS },
+                    error = { _movieLoadingState.value = NetworkState.ERROR }
+                ).collectLatest {
+                    searchResult.value = it
+                }
+            }
+
+        }
+    }
+
+    fun fetchNextMoviePage() {
+        if (movieLoadingState.value != NetworkState.LOADING) {
+            moviePageStateFlow.value++
+        }
+    }
 }
