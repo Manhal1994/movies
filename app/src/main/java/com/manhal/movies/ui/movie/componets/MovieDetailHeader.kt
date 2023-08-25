@@ -1,9 +1,20 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.ui.movie.componets
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,65 +32,64 @@ import com.skydoves.landscapist.CircularReveal
 import com.skydoves.landscapist.palette.BitmapPalette
 
 @Composable
- fun MovieDetailHeader(
-    viewModel: MovieDetailViewModel
+fun MovieDetailHeader(
+  viewModel: MovieDetailViewModel
 ) {
-    val movie: Movie? by viewModel.movieFlow.collectAsState(initial = null)
+  val movie: Movie? by viewModel.movieFlow.collectAsState(initial = null)
 
-    Column {
+  Column {
 
-        var palette by remember { mutableStateOf<Palette?>(null) }
-        NetworkImage(
-            networkUrl = Api.getBackdropPath(movie?.backdrop_path),
-            circularReveal = CircularReveal(duration = 300),
-            shimmerParams = null,
-            bitmapPalette = BitmapPalette {
-                palette = it
-            },
-            modifier = Modifier
-                .height(280.dp)
+    var palette by remember { mutableStateOf<Palette?>(null) }
+    NetworkImage(
+      networkUrl = Api.getBackdropPath(movie?.backdrop_path),
+      circularReveal = CircularReveal(duration = 300),
+      shimmerParams = null,
+      bitmapPalette = BitmapPalette {
+        palette = it
+      },
+      modifier = Modifier
+        .height(280.dp)
 
-        )
+    )
 
-        Spacer(modifier = Modifier.height(25.dp))
+    Spacer(modifier = Modifier.height(25.dp))
 
-        Text(
-            text = movie?.title ?: "",
-            style = MaterialTheme.typography.h5,
-            color = Color.White,
-            textAlign = TextAlign.Center,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-        )
+    Text(
+      text = movie?.title ?: "",
+      style = MaterialTheme.typography.h5,
+      color = Color.White,
+      textAlign = TextAlign.Center,
+      maxLines = 2,
+      overflow = TextOverflow.Ellipsis,
+      fontWeight = FontWeight.Bold,
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 8.dp)
+    )
 
-        Spacer(modifier = Modifier.height(6.dp))
+    Spacer(modifier = Modifier.height(6.dp))
 
-        Text(
-            text = "Release Date: ${movie?.release_date}",
-            style = MaterialTheme.typography.body1,
-            color = Color.White,
-            textAlign = TextAlign.Center,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-        )
+    Text(
+      text = "Release Date: ${movie?.release_date}",
+      style = MaterialTheme.typography.body1,
+      color = Color.White,
+      textAlign = TextAlign.Center,
+      maxLines = 1,
+      overflow = TextOverflow.Ellipsis,
+      fontWeight = FontWeight.Bold,
+      modifier = Modifier
+        .fillMaxWidth()
+        .padding(horizontal = 8.dp)
+    )
 
-        Spacer(modifier = Modifier.height(8.dp))
+    Spacer(modifier = Modifier.height(8.dp))
 
-        RatingBar(
-            rating = (movie?.vote_average ?: 0f) / 2f,
-            color = Color(palette?.vibrantSwatch?.rgb ?: 0),
-            modifier = Modifier
-                .height(15.dp)
-                .align(Alignment.CenterHorizontally)
-        )
-
-    }
+    RatingBar(
+      rating = (movie?.vote_average ?: 0f) / 2f,
+      color = Color(palette?.vibrantSwatch?.rgb ?: 0),
+      modifier = Modifier
+        .height(15.dp)
+        .align(Alignment.CenterHorizontally)
+    )
+  }
 }

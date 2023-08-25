@@ -1,3 +1,5 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.repository
 
 import androidx.annotation.WorkerThread
@@ -83,10 +85,10 @@ class MovieRepository constructor(
           spokenLanguages = data.spoken_languages
           movie.spokenLanguages = spokenLanguages
           movieDao.updateMovie(movie)
-          emit(spokenLanguages?:listOf())
+          emit(spokenLanguages ?: listOf())
         }
     } else {
-      emit(spokenLanguages?: listOf())
+      emit(spokenLanguages ?: listOf())
     }
   }.flowOn(Dispatchers.IO)
 
@@ -94,7 +96,7 @@ class MovieRepository constructor(
   fun loadMovieRevenue(id: Long) = flow<Int?> {
     val movie = movieDao.getMovie(id)
     var revenue = movie.revenue
-    if (revenue==null) {
+    if (revenue == null) {
       movieService.fetchMovieDetail(id)
         .suspendOnSuccess {
           revenue = data.revenue
@@ -106,9 +108,6 @@ class MovieRepository constructor(
       emit(null)
     }
   }.flowOn(Dispatchers.IO)
-
-
-
 
   @WorkerThread
   fun loadMovieById(id: Long) = flow {

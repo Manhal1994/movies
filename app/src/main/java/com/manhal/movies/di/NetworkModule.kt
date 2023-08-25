@@ -1,3 +1,4 @@
+/* Developed by Manhal */
 
 package com.manhal.movies.di
 
@@ -5,7 +6,10 @@ import android.content.Context
 import coil.ImageLoader
 import com.manhal.movies.network.Api
 import com.manhal.movies.network.RequestInterceptor
-import com.manhal.movies.network.service.*
+import com.manhal.movies.network.service.GenreService
+import com.manhal.movies.network.service.MovieDetailService
+import com.manhal.movies.network.service.MovieService
+import com.manhal.movies.network.service.TheDiscoverService
 import com.skydoves.sandwich.coroutines.CoroutinesResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -74,6 +78,4 @@ object NetworkModule {
   fun provideMovieDetailService(retrofit: Retrofit): MovieDetailService {
     return retrofit.create(MovieDetailService::class.java)
   }
-
-
 }

@@ -1,7 +1,15 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.ui.movie.componets
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -21,49 +29,45 @@ import com.manhal.movies.ui.movie.MovieDetailViewModel
 
 @Composable
 fun MovieHomepage(viewModel: MovieDetailViewModel) {
-    val movieDetail by viewModel.movieDetailFlow.collectAsState(initial = null)
-    if (movieDetail != null) {
-        val uriHandler = LocalUriHandler.current
-        Column {
+  val movieDetail by viewModel.movieDetailFlow.collectAsState(initial = null)
+  if (movieDetail != null) {
+    val uriHandler = LocalUriHandler.current
+    Column {
 
-            Spacer(modifier = Modifier.height(23.dp))
+      Spacer(modifier = Modifier.height(23.dp))
 
-            Text(
-                text = stringResource(R.string.homepage),
-                style = MaterialTheme.typography.h6,
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 15.dp)
-            )
-            Spacer(modifier = Modifier.height(12.dp))
+      Text(
+        text = stringResource(R.string.homepage),
+        style = MaterialTheme.typography.h6,
+        color = Color.White,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 15.dp)
+      )
+      Spacer(modifier = Modifier.height(12.dp))
 
-            Box(
+      Box(
 
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-                    .clickable {
-                        uriHandler.openUri(movieDetail!!.homepage)
+        modifier = Modifier
+          .padding(horizontal = 15.dp)
+          .clickable {
+            uriHandler.openUri(movieDetail!!.homepage)
+          }
+      ) {
 
+        Text(
+          text = movieDetail!!.homepage,
+          color = Color.White,
+          style = TextStyle(
+            textDecoration = TextDecoration.Underline
+          )
 
-                    }) {
-
-                Text(
-                    text = movieDetail!!.homepage,
-                    color = Color.White,
-                    style = TextStyle(
-                        textDecoration = TextDecoration.Underline
-                    )
-
-                )
-                Spacer(modifier = Modifier.width(4.dp))
-
-
-            }
-        }
-
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+      }
     }
+  }
 }

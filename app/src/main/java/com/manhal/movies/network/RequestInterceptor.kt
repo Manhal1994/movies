@@ -1,8 +1,9 @@
+/* Developed by Manhal */
 
 package com.manhal.movies.network
+import com.manhal.movies.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
-import com.manhal.movies.BuildConfig
 
 internal class RequestInterceptor : Interceptor {
   override fun intercept(chain: Interceptor.Chain): Response {

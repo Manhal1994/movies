@@ -1,3 +1,4 @@
+/* Developed by Manhal */
 
 package com.manhal.movies.operator
 import android.content.Context

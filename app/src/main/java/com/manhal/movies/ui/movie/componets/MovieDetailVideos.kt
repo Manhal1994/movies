@@ -1,6 +1,13 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.ui.movie.componets
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
@@ -19,43 +26,43 @@ import com.manhal.movies.ui.movie.MovieDetailViewModel
 import com.skydoves.whatif.whatIfNotNullOrEmpty
 
 @Composable
- fun MovieDetailVideos(
-    viewModel: MovieDetailViewModel
+fun MovieDetailVideos(
+  viewModel: MovieDetailViewModel
 ) {
-    val videos by viewModel.videoListFlow.collectAsState(listOf())
+  val videos by viewModel.videoListFlow.collectAsState(listOf())
 
-    videos.whatIfNotNullOrEmpty {
+  videos.whatIfNotNullOrEmpty {
 
-        Column {
+    Column {
 
-            Spacer(modifier = Modifier.height(23.dp))
+      Spacer(modifier = Modifier.height(23.dp))
 
-            Text(
-                text = stringResource(R.string.trailers),
-                style = MaterialTheme.typography.h6,
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 15.dp)
-            )
+      Text(
+        text = stringResource(R.string.trailers),
+        style = MaterialTheme.typography.h6,
+        color = Color.White,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 15.dp)
+      )
 
-            Spacer(modifier = Modifier.height(12.dp))
+      Spacer(modifier = Modifier.height(12.dp))
 
-            LazyRow(
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-            ) {
+      LazyRow(
+        modifier = Modifier
+          .padding(horizontal = 15.dp)
+      ) {
 
-                items(items = videos) { video ->
+        items(items = videos) { video ->
 
-                    VideoThumbnail(video)
+          VideoThumbnail(video)
 
-                    Spacer(modifier = Modifier.width(12.dp))
-                }
-            }
+          Spacer(modifier = Modifier.width(12.dp))
         }
+      }
     }
+  }
 }

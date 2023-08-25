@@ -1,3 +1,5 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.persistence
 
 import androidx.room.Dao
@@ -9,9 +11,9 @@ import com.manhal.movies.models.entities.Genre
 @Dao
 interface GenreDao {
 
-    @Query("SELECT * FROM Genre")
-    suspend fun getGenreList(): List<Genre>
+  @Query("SELECT * FROM Genre")
+  suspend fun getGenreList(): List<Genre>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertGenreList(genres: List<Genre>)
+  @Insert(onConflict = OnConflictStrategy.REPLACE)
+  suspend fun insertGenreList(genres: List<Genre>)
 }

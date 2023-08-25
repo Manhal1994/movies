@@ -1,9 +1,19 @@
+/* Developed by Manhal */
 
 package com.manhal.movies.di
 
-import com.manhal.movies.network.service.*
-import com.manhal.movies.persistence.*
-import com.manhal.movies.repository.*
+import com.manhal.movies.network.service.GenreService
+import com.manhal.movies.network.service.MovieDetailService
+import com.manhal.movies.network.service.MovieService
+import com.manhal.movies.network.service.TheDiscoverService
+import com.manhal.movies.persistence.GenreDao
+import com.manhal.movies.persistence.MovieDao
+import com.manhal.movies.persistence.MovieDetailDao
+import com.manhal.movies.persistence.MovieGenreDao
+import com.manhal.movies.repository.DiscoverRepository
+import com.manhal.movies.repository.GenreRepository
+import com.manhal.movies.repository.MovieDetailRepository
+import com.manhal.movies.repository.MovieRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,7 +31,7 @@ object RepositoryModule {
     movieDao: MovieDao,
     movieGenreDao: MovieGenreDao,
   ): DiscoverRepository {
-    return DiscoverRepository(discoverService, movieDao,movieGenreDao)
+    return DiscoverRepository(discoverService, movieDao, movieGenreDao)
   }
 
   @Provides
@@ -50,6 +60,4 @@ object RepositoryModule {
   ): MovieDetailRepository {
     return MovieDetailRepository(movieDetailService, movieDetailDao)
   }
-
-
 }

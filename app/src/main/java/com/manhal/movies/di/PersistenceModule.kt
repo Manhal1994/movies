@@ -1,9 +1,14 @@
+/* Developed by Manhal */
 
 package com.manhal.movies.di
 
 import android.content.Context
 import androidx.room.Room
-import com.manhal.movies.persistence.*
+import com.manhal.movies.persistence.AppDatabase
+import com.manhal.movies.persistence.GenreDao
+import com.manhal.movies.persistence.MovieDao
+import com.manhal.movies.persistence.MovieDetailDao
+import com.manhal.movies.persistence.MovieGenreDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,7 +52,4 @@ object PersistenceModule {
   fun provideMovieDetailDao(appDatabase: AppDatabase): MovieDetailDao {
     return appDatabase.movieDetailDao()
   }
-
-
-
 }

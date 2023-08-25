@@ -1,3 +1,5 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.ui.home.componets
 
 import androidx.compose.foundation.background
@@ -11,29 +13,28 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.statusBarsPadding
 import com.manhal.movies.extensions.paging
 import com.manhal.movies.models.entities.Movie
-import com.manhal.movies.ui.home.componets.MoviePoster
 import com.manhal.movies.ui.main.MainViewModel
 
 @Composable
-fun MovieList(modifier:Modifier, movies:List<Movie>,viewModel: MainViewModel,selectPoster: ( Long) -> Unit){
-    LazyColumn(
-        modifier = modifier
-            .statusBarsPadding()
-            .background(MaterialTheme.colors.background)
+fun MovieList(modifier: Modifier, movies: List<Movie>, viewModel: MainViewModel, selectPoster: (Long) -> Unit) {
+  LazyColumn(
+    modifier = modifier
+      .statusBarsPadding()
+      .background(MaterialTheme.colors.background)
+  ) {
+
+    paging(
+      items = movies,
+      currentIndexFlow = viewModel.moviePageStateFlow,
+      fetch = { viewModel.fetchNextMoviePage() }
     ) {
 
-        paging(
-            items = movies,
-            currentIndexFlow = viewModel.moviePageStateFlow,
-            fetch = { viewModel.fetchNextMoviePage() }
-        ) {
-
-            Box(modifier = Modifier.padding(8.dp)) {
-                MoviePoster(
-                    movie = it,
-                    selectPoster = selectPoster
-                )
-            }
-        }
+      Box(modifier = Modifier.padding(8.dp)) {
+        MoviePoster(
+          movie = it,
+          selectPoster = selectPoster
+        )
+      }
     }
+  }
 }

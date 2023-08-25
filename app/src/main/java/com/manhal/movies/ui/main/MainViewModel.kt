@@ -1,3 +1,5 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.ui.main
 
 import androidx.compose.runtime.MutableState
@@ -21,15 +23,13 @@ import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class MainViewModel @Inject constructor(
   val imageLoader: ImageLoader,
   private val discoverRepository: DiscoverRepository,
   private val genreRepository: GenreRepository,
 
-  ) : ViewModel() {
-
+) : ViewModel() {
 
   private val _movieLoadingState: MutableState<NetworkState> = mutableStateOf(NetworkState.IDLE)
   val movieLoadingState: State<NetworkState> get() = _movieLoadingState
@@ -41,22 +41,16 @@ class MainViewModel @Inject constructor(
 
   val searchResult: MutableStateFlow<List<Movie>> = MutableStateFlow(mutableListOf())
 
-
   private val _genres: MutableStateFlow<List<Genre>> = MutableStateFlow(mutableListOf<Genre>())
-  val genres: MutableStateFlow<List<Genre>> =_genres
+  val genres: MutableStateFlow<List<Genre>> = _genres
 
   val selectedGenresStateFlow: MutableStateFlow<List<Int>> = MutableStateFlow(mutableListOf())
 
   val selectedGenres = arrayListOf<Int>()
 
-  val genresVisibility :MutableStateFlow<Boolean> = MutableStateFlow(false)
+  val genresVisibility: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-  val searchActive :MutableStateFlow<Boolean> = MutableStateFlow(false)
-
-
-
-
-
+  val searchActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
   private val newMovieFlow = moviePageStateFlow.flatMapLatest {
     _movieLoadingState.value = NetworkState.LOADING
@@ -72,48 +66,50 @@ class MainViewModel @Inject constructor(
       newMovieFlow.collectLatest {
         movies.value.addAll(it)
       }
-
-
     }
     viewModelScope.launch(Dispatchers.IO) {
 
-      genreRepository.loadGenreList(success = {
-
-      }, error = {
-
-      }).collectLatest {
-        _genres.value =  it
+      genreRepository.loadGenreList(
+        success = {
+        },
+        error = {
+        }
+      ).collectLatest {
+        _genres.value = it
       }
     }
   }
 
-  fun toggleGenreFilter(id:Int){
-    if(selectedGenres.contains(id)) {
+  fun toggleGenreFilter(id: Int) {
+    if (selectedGenres.contains(id)) {
       selectedGenres.remove(id)
-    }
-    else {
+    } else {
       selectedGenres.add(id)
     }
     selectedGenresStateFlow.value = selectedGenres.toList()
   }
 
-  fun searchMovies(name:String) {
-    if(name.trim().isNotEmpty()) {
-      viewModelScope.launch(Dispatchers.IO){
+  fun searchMovies(name: String) {
+    if (name.trim().isNotEmpty()) {
+      viewModelScope.launch(Dispatchers.IO) {
         searchActive.value = true
         genresVisibility.value = true
         _movieLoadingState.value = NetworkState.LOADING
         if (selectedGenres.isEmpty()) {
-          discoverRepository.searchMovies(name.trim(),
+          discoverRepository.searchMovies(
+            name.trim(),
             success = { _movieLoadingState.value = NetworkState.SUCCESS },
-            error = { _movieLoadingState.value = NetworkState.ERROR }).collectLatest {
-            searchResult.value=it
+            error = { _movieLoadingState.value = NetworkState.ERROR }
+          ).collectLatest {
+            searchResult.value = it
           }
         } else {
-          discoverRepository.searchMoviesWithGenre(name.trim(),
+          discoverRepository.searchMoviesWithGenre(
+            name.trim(),
             selectedGenres,
             success = { _movieLoadingState.value = NetworkState.SUCCESS },
-            error = { _movieLoadingState.value = NetworkState.ERROR }).collectLatest {
+            error = { _movieLoadingState.value = NetworkState.ERROR }
+          ).collectLatest {
             searchResult.value = it
           }
         }
@@ -125,6 +121,4 @@ class MainViewModel @Inject constructor(
       moviePageStateFlow.value++
     }
   }
-
-
 }

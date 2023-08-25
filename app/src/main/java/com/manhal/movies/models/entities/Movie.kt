@@ -1,3 +1,5 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.models.entities
 
 import androidx.compose.runtime.Immutable
@@ -9,12 +11,12 @@ import com.manhal.movies.models.Video
 
 @Immutable
 @Entity(primaryKeys = [("id")])
-  data class Movie(
+data class Movie(
   var page: Int,
   var keywords: List<Keyword>? = ArrayList(),
   var videos: List<Video>? = ArrayList(),
   var reviews: List<Review>? = ArrayList(),
-  var spokenLanguages: List<SpokenLanguage>?= ArrayList(),
+  var spokenLanguages: List<SpokenLanguage>? = ArrayList(),
   var revenue: Int?,
   val poster_path: String?,
   val adult: Boolean,

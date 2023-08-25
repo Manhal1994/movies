@@ -1,6 +1,12 @@
-package com.manhal.movies.ui.movie
+/* Developed by Manhal */
 
-import androidx.compose.foundation.layout.*
+package com.manhal.movies.ui.movie.componets
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -13,37 +19,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.flowlayout.FlowRow
-import com.manhal.movies.models.entities.MovieDetail
 import com.manhal.movies.R
+import com.manhal.movies.models.entities.MovieDetail
+import com.manhal.movies.ui.movie.MovieDetailViewModel
 
 @Composable
- fun MovieDetailGenres(
-    viewModel: MovieDetailViewModel
+fun MovieDetailGenres(
+  viewModel: MovieDetailViewModel
 ) {
-    val movieDetail: MovieDetail? by viewModel.movieDetailFlow.collectAsState(initial = null)
-    if (movieDetail != null) {
+  val movieDetail: MovieDetail? by viewModel.movieDetailFlow.collectAsState(initial = null)
+  if (movieDetail != null) {
 
-        Column {
-            Spacer(modifier = Modifier.height(12.dp))
+    Column {
+      Spacer(modifier = Modifier.height(12.dp))
 
-            Text(
-                text = stringResource(R.string.genres),
-                style = MaterialTheme.typography.h6,
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 15.dp)
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            FlowRow {
-                movieDetail!!.genres.forEach {
-                    Genre(it)
-                }
-            }
+      Text(
+        text = stringResource(R.string.genres),
+        style = MaterialTheme.typography.h6,
+        color = Color.White,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 15.dp)
+      )
+      Spacer(modifier = Modifier.height(12.dp))
+      FlowRow {
+        movieDetail!!.genres.forEach {
+          Genre(it)
         }
-
+      }
     }
+  }
 }

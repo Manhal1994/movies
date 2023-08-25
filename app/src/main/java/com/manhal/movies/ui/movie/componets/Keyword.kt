@@ -1,4 +1,6 @@
-package com.manhal.movies.ui.movie
+/* Developed by Manhal */
+
+package com.manhal.movies.ui.movie.componets
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,21 +16,21 @@ import com.manhal.movies.models.Keyword
 import com.manhal.movies.ui.theme.purple200
 
 @Composable
-public fun Keyword(keyword: Keyword) {
-    Surface(
-        shape = RoundedCornerShape(32.dp),
-        elevation = 8.dp,
-        color = purple200,
-        modifier = Modifier.padding(8.dp)
-    ) {
+fun Keyword(keyword: Keyword) {
+  Surface(
+    shape = RoundedCornerShape(32.dp),
+    elevation = 8.dp,
+    color = purple200,
+    modifier = Modifier.padding(8.dp)
+  ) {
 
-        Text(
-            text = keyword.name,
-            style = MaterialTheme.typography.body1,
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .padding(horizontal = 8.dp, vertical = 4.dp)
-        )
-    }
+    Text(
+      text = keyword.name,
+      style = MaterialTheme.typography.body1,
+      color = Color.White,
+      fontWeight = FontWeight.Bold,
+      modifier = Modifier
+        .padding(horizontal = 8.dp, vertical = 4.dp)
+    )
+  }
 }

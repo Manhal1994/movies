@@ -1,3 +1,5 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.models.network
 
 data class MovieErrorResponse(

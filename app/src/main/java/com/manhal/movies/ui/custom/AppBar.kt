@@ -1,3 +1,5 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.ui.custom
 
 import androidx.compose.foundation.Image

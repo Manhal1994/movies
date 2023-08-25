@@ -1,3 +1,5 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.persistence.converters
 
 import androidx.room.TypeConverter

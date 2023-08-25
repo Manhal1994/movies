@@ -1,3 +1,4 @@
+/* Developed by Manhal */
 
 package com.manhal.movies.ui.navigation
 
@@ -14,6 +15,4 @@ sealed class NavScreen(val route: String) {
 
     const val argument0: String = "movieId"
   }
-
-
 }

@@ -1,15 +1,15 @@
+/* Developed by Manhal */
 
 package com.manhal.movies.ui.custom
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
+import com.manhal.movies.R
 import com.skydoves.balloon.ArrowOrientation
 import com.skydoves.balloon.Balloon
 import com.skydoves.balloon.BalloonAnimation
 import com.skydoves.balloon.createBalloon
 import com.skydoves.balloon.textForm
-import com.manhal.movies.R
-
 
 object BalloonFactory {
 

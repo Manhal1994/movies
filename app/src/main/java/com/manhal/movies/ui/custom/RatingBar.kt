@@ -1,3 +1,4 @@
+/* Developed by Manhal */
 
 package com.manhal.movies.ui.custom
 
@@ -26,8 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.manhal.movies.ui.theme.purple200
 import kotlin.math.cos
 import kotlin.math.sin
-
-
 
 @Composable
 fun RatingBar(

@@ -1,7 +1,8 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.repository
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.annotation.WorkerThread
 import com.manhal.movies.models.entities.MovieGenre
 import com.manhal.movies.network.service.TheDiscoverService
@@ -36,10 +37,10 @@ class DiscoverRepository constructor(
       response.suspendOnSuccess {
         movies = data.results
         movies.forEach {
-          movieGenres.clear();
+          movieGenres.clear()
           it.page = page
           for (genreId in it.genre_ids) {
-            movieGenres.add(MovieGenre(genreId.toLong(),it.id))
+            movieGenres.add(MovieGenre(genreId.toLong(), it.id))
           }
           movieGenreDao.insertGenreMovieList(movieGenres.toList())
         }
@@ -55,21 +56,19 @@ class DiscoverRepository constructor(
 
   @SuppressLint("SuspiciousIndentation")
   @WorkerThread
-  fun searchMovies(title:String, success: () -> Unit, error: () -> Unit) = flow {
+  fun searchMovies(title: String, success: () -> Unit, error: () -> Unit) = flow {
     val movies = movieDao.searchByTitle(title)
-      emit(movies)
-
+    emit(movies)
   }.onCompletion { success() }.flowOn(Dispatchers.IO)
 
   @SuppressLint("SuspiciousIndentation")
   @WorkerThread
-  fun searchMoviesWithGenre(title:String,genresIds:List<Int>, success: () -> Unit, error: () -> Unit) = flow {
+  fun searchMoviesWithGenre(title: String, genresIds: List<Int>, success: () -> Unit, error: () -> Unit) = flow {
     val ids = arrayListOf<String>()
     for (it in genresIds) {
       ids.add(it.toString())
     }
-    val movies = movieDao.searchByTitleAndGenre(title,ids)
+    val movies = movieDao.searchByTitleAndGenre(title, ids)
     emit(movies)
   }.onCompletion { success() }.flowOn(Dispatchers.IO)
-
 }

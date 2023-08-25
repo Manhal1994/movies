@@ -1,6 +1,12 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.ui.movie.componets
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -12,41 +18,41 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.manhal.movies.R
 import com.manhal.movies.ui.movie.MovieDetailViewModel
 import com.skydoves.whatif.whatIfNotNullOrEmpty
-import com.manhal.movies.R
 
 @Composable
- fun MovieDetailReviews(
-    viewModel: MovieDetailViewModel
+fun MovieDetailReviews(
+  viewModel: MovieDetailViewModel
 ) {
-    val reviews by viewModel.reviewListFlow.collectAsState(listOf())
+  val reviews by viewModel.reviewListFlow.collectAsState(listOf())
 
-    reviews.whatIfNotNullOrEmpty {
+  reviews.whatIfNotNullOrEmpty {
 
-        Column {
+    Column {
 
-            Spacer(modifier = Modifier.height(23.dp))
+      Spacer(modifier = Modifier.height(23.dp))
 
-            Text(
-                text = stringResource(R.string.reviews),
-                style = MaterialTheme.typography.h6,
-                color = Color.White,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 15.dp)
-            )
+      Text(
+        text = stringResource(R.string.reviews),
+        style = MaterialTheme.typography.h6,
+        color = Color.White,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
+        fontWeight = FontWeight.Bold,
+        modifier = Modifier
+          .fillMaxWidth()
+          .padding(horizontal = 15.dp)
+      )
 
-            Column {
+      Column {
 
-                reviews.forEach {
+        reviews.forEach {
 
-                    Review(it)
-                }
-            }
+          Review(it)
         }
+      }
     }
+  }
 }

@@ -1,4 +1,4 @@
-
+/* Developed by Manhal */
 
 package com.manhal.movies.ui.theme
 

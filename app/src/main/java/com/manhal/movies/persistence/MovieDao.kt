@@ -1,3 +1,5 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.persistence
 import androidx.room.Dao
 import androidx.room.Insert
@@ -24,5 +26,5 @@ interface MovieDao {
   suspend fun searchByTitle(title_: String): List<Movie>
 
   @Query("Select * FROM Movie WHERE LOWER(title) Like '%' || LOWER(:title_) || '%' AND id in (select movieId from MovieGenre WHERE genreId in (:genreIds_))")
-  suspend fun searchByTitleAndGenre(title_:String,genreIds_:List<String>): List<Movie>
+  suspend fun searchByTitleAndGenre(title_: String, genreIds_: List<String>): List<Movie>
 }

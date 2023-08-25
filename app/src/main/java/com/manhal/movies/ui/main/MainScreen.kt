@@ -1,3 +1,5 @@
+/* Developed by Manhal */
+
 package com.manhal.movies.ui.main
 
 import androidx.compose.foundation.layout.height
@@ -20,17 +22,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.accompanist.insets.ProvideWindowInsets
+import com.manhal.movies.R
 import com.manhal.movies.ui.home.MovieScreen
 import com.manhal.movies.ui.movie.MovieDetailScreen
 import com.manhal.movies.ui.navigation.NavScreen
 import com.manhal.movies.ui.theme.purple200
-import com.manhal.movies.R
-
 
 @Composable
 fun MainScreen() {
   val navController = rememberNavController()
-
 
   ProvideWindowInsets {
     NavHost(navController = navController, startDestination = NavScreen.Home.route) {
@@ -40,9 +40,8 @@ fun MainScreen() {
       ) {
         MovieScreen(
           viewModel = hiltViewModel(),
-          selectPoster = {index->
+          selectPoster = { index ->
             navController.navigate("${NavScreen.MovieDetails.route}/$index")
-
           }
         )
       }
@@ -61,8 +60,6 @@ fun MainScreen() {
           navController.navigateUp()
         }
       }
-
-
     }
   }
 }
@@ -86,5 +83,3 @@ fun MainAppBar() {
     )
   }
 }
-
-
