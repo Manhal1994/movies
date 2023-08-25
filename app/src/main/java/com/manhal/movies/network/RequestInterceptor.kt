@@ -1,7 +1,6 @@
 /* Developed by Manhal */
 
 package com.manhal.movies.network
-import com.manhal.movies.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -10,7 +9,7 @@ internal class RequestInterceptor : Interceptor {
     val originalRequest = chain.request()
     val originalUrl = originalRequest.url
     val url = originalUrl.newBuilder()
-      .addQueryParameter("api_key", BuildConfig.TMDB_API_KEY)
+      .addQueryParameter("api_key", "df0afeb903f509ecce3212b0af798cc3")
       .build()
 
     val requestBuilder = originalRequest.newBuilder().url(url)
