@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "717239197496",
+    "project_id": "movies-7aed3",
+    "storage_bucket": "movies-7aed3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717239197496:android:fce5ebefe067aee464abcd",
+        "android_client_info": {
+          "package_name": "com.manhal.movies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "717239197496-k6vv3da4i574okap6tn52eq6qcsk41hu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRyCy4k34zL68dH-BQmgm_YEqCdDpM4LY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "717239197496-k6vv3da4i574okap6tn52eq6qcsk41hu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
