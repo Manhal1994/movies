@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,45 +29,45 @@ import com.manhal.movies.ui.main.MainViewModel
 
 @Composable
 fun GenreList(
-    genres: State<List<Genre>>,
-    selectedGenre: State<List<Int>>,
-    viewModel: MainViewModel,
-    text: String
+  genres: State<List<Genre>>,
+  selectedGenre: State<List<Int>>,
+  viewModel: MainViewModel,
+  text: String
 ) {
-    LazyRow(modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)) {
-        items(count = genres.value.size) { index ->
-            Box(
-                modifier = Modifier
-                  .height(30.dp)
-                  .clip(RoundedCornerShape(12.dp))
-                  .border(
-                    width = 0.9.dp,
-                    shape = RoundedCornerShape(12.dp),
-                    color = Color.Black,
-                  )
-                  .then(
-                    if (selectedGenre.value.contains(genres.value[index].id)) Modifier.background(
-                      color = MaterialTheme.colors.primary
-                    ) else Modifier.background(color = Color.White)
-                  )
-                  .padding(horizontal = 8.dp)
-                  .clickable {
-                    viewModel.toggleGenreFilter(genres.value[index].id)
-                    viewModel.searchMovies(text)
-                  },
-                contentAlignment = Alignment.Center
-            ) {
+  LazyRow(modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)) {
+    items(count = genres.value.size) { index ->
+      Box(
+        modifier = Modifier
+          .height(30.dp)
+          .clip(RoundedCornerShape(12.dp))
+          .border(
+            width = 0.9.dp,
+            shape = RoundedCornerShape(12.dp),
+            color = Color.Black,
+          )
+          .then(
+            if (selectedGenre.value.contains(genres.value[index].id)) Modifier.background(
+              color = MaterialTheme.colors.primary
+            ) else Modifier.background(color = Color.White)
+          )
+          .padding(horizontal = 8.dp)
+          .clickable {
+            viewModel.toggleGenreFilter(genres.value[index].id)
+            viewModel.searchMovies(text)
+          },
+        contentAlignment = Alignment.Center
+      ) {
 
-                Text(
-                    modifier = Modifier
-                      .fillMaxSize()
-                      .wrapContentHeight(),
-                    text = genres.value[index].name,
-                    color = (if (selectedGenre.value.contains(genres.value[index].id)) Color.White else Color.Black),
-                    textAlign = TextAlign.Center,
-                )
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-        }
+        Text(
+          modifier = Modifier
+            .fillMaxSize()
+            .wrapContentHeight(),
+          text = genres.value[index].name,
+          color = (if (selectedGenre.value.contains(genres.value[index].id)) Color.White else Color.Black),
+          textAlign = TextAlign.Center,
+        )
+      }
+      Spacer(modifier = Modifier.width(8.dp))
     }
+  }
 }

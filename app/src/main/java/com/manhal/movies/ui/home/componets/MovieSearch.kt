@@ -14,7 +14,6 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
@@ -23,32 +22,32 @@ import com.manhal.movies.ui.main.MainViewModel
 
 @Composable
 fun MovieSearch(text: String, viewModel: MainViewModel, onChange: (String) -> Unit) {
-    return Box(
-        modifier = Modifier
-          .fillMaxWidth()
-          .padding(horizontal = 8.dp)
-          .border(1.dp, Color.Black, shape = RoundedCornerShape(6.dp))
+  return Box(
+    modifier = Modifier
+      .fillMaxWidth()
+      .padding(horizontal = 8.dp)
+      .border(1.dp, Color.Black, shape = RoundedCornerShape(6.dp))
 
-    ) {
-        TextField(
-            value = text,
-            onValueChange = {
-                onChange(it)
-                viewModel.searchMovies(text)
-            },
-            placeholder = { Text("Search") },
-            leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-            modifier = Modifier
-              .fillMaxWidth()
-              .onFocusChanged {
-              },
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.White,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            ),
+  ) {
+    TextField(
+      value = text,
+      onValueChange = {
+        onChange(it)
+        viewModel.searchMovies(text)
+      },
+      placeholder = { Text("Search") },
+      leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
+      modifier = Modifier
+        .fillMaxWidth()
+        .onFocusChanged {
+        },
+      colors = TextFieldDefaults.textFieldColors(
+        backgroundColor = Color.White,
+        focusedIndicatorColor = Color.Transparent,
+        unfocusedIndicatorColor = Color.Transparent,
+        disabledIndicatorColor = Color.Transparent
+      ),
 
-            )
-    }
+    )
+  }
 }
