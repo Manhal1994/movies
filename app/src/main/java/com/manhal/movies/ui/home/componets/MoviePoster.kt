@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -33,7 +34,7 @@ fun MoviePoster(
 ) {
 
   Surface(
-    modifier = modifier.clickable {
+    modifier = modifier.padding(horizontal = 12.dp, vertical = 10.dp).clickable {
       selectPoster(movie.id)
     }
   ) {
@@ -55,7 +56,7 @@ fun MoviePoster(
 
       )
 
-      Spacer(modifier = Modifier.width(4.dp))
+      Spacer(modifier = Modifier.width(16.dp))
       Column(modifier = Modifier.weight(1f)) {
         Text(
           text = movie.title,

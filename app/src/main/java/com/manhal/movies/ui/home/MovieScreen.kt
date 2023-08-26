@@ -36,11 +36,9 @@ fun MovieScreen(
   modifier: Modifier = Modifier
 ) {
   val networkState: NetworkState by viewModel.movieLoadingState
-  val movies by viewModel.movies
-
+  val movies = viewModel.movies.collectAsState()
   val genres = viewModel.genres.collectAsState()
   val selectedGenre = viewModel.selectedGenresStateFlow.collectAsState()
-  val genresVisibility = viewModel.genresVisibility.collectAsState()
   val searchResult = viewModel.searchResult.collectAsState()
   val searchActive = viewModel.searchActive.collectAsState()
   val searchText = viewModel.searchText.collectAsState()
@@ -48,26 +46,26 @@ fun MovieScreen(
   Column {
 
     Spacer(modifier = Modifier.height(16.dp))
-    MovieSearch(searchText.value, viewModel) {
-      viewModel.searchText.value = it
+    MovieSearch(viewModel) {
+      viewModel.query.value = it
+      viewModel.searchMovies()
     }
+    Spacer(modifier = Modifier.height(8.dp))
 
-    if (genresVisibility.value) {
-      if (genres.value.isNotEmpty()) {
-        GenreList(genres, selectedGenre, viewModel, searchText.value)
-      } else {
-        Box(modifier = Modifier.fillMaxSize()) {
-          Text(
-            text = "No result found",
-            textAlign = TextAlign.Center,
-            modifier = Modifier.align(alignment = Alignment.Center)
-          )
-        }
+    if (genres.value.isNotEmpty()) {
+      GenreList(genres, selectedGenre, viewModel, searchText.value)
+    } else {
+      Box(modifier = Modifier.fillMaxSize()) {
+        Text(
+          text = "No result found",
+          textAlign = TextAlign.Center,
+          modifier = Modifier.align(alignment = Alignment.Center)
+        )
       }
     }
 
     if (!searchActive.value) {
-      MovieList(modifier = modifier, movies, viewModel, selectPoster)
+      MovieList(modifier = modifier, movies.value, viewModel, selectPoster)
     } else {
       if (searchResult.value.isNotEmpty()) {
         LazyColumn(

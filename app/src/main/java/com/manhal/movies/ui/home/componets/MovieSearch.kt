@@ -15,32 +15,28 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.manhal.movies.ui.main.MainViewModel
 
 @Composable
-fun MovieSearch(text: String, viewModel: MainViewModel, onChange: (String) -> Unit) {
+fun MovieSearch(viewModel: MainViewModel, onChange: (String) -> Unit) {
   return Box(
     modifier = Modifier
       .fillMaxWidth()
-      .padding(horizontal = 8.dp)
+      .padding(horizontal = 12.dp)
       .border(1.dp, Color.Black, shape = RoundedCornerShape(6.dp))
 
   ) {
     TextField(
-      value = text,
+      value = viewModel.query.value,
       onValueChange = {
         onChange(it)
-        viewModel.searchMovies(text)
       },
       placeholder = { Text("Search") },
       leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
       modifier = Modifier
-        .fillMaxWidth()
-        .onFocusChanged {
-        },
+        .fillMaxWidth(),
       colors = TextFieldDefaults.textFieldColors(
         backgroundColor = Color.White,
         focusedIndicatorColor = Color.Transparent,

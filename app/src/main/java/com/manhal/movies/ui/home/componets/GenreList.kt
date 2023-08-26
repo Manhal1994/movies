@@ -34,7 +34,7 @@ fun GenreList(
   viewModel: MainViewModel,
   text: String
 ) {
-  LazyRow(modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)) {
+  LazyRow(modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
     items(count = genres.value.size) { index ->
       Box(
         modifier = Modifier
@@ -53,7 +53,7 @@ fun GenreList(
           .padding(horizontal = 8.dp)
           .clickable {
             viewModel.toggleGenreFilter(genres.value[index].id)
-            viewModel.searchMovies(text)
+            viewModel.searchMovies()
           },
         contentAlignment = Alignment.Center
       ) {

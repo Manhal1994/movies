@@ -48,11 +48,14 @@ class DiscoverRepository constructor(
         emit(movies)
       }.onError {
         error()
-      }.onException { error() }
+      }
+        .onException { error() }
     } else {
+
       emit(movies)
     }
-  }.onCompletion { success() }.flowOn(Dispatchers.IO)
+  }.onCompletion { success() }
+    .flowOn(Dispatchers.IO)
 
   @SuppressLint("SuspiciousIndentation")
   @WorkerThread

@@ -36,7 +36,7 @@ class MainViewModel @Inject constructor(
 
   val searchText: MutableStateFlow<String> = MutableStateFlow<String>("")
 
-  val movies: State<MutableList<Movie>> = mutableStateOf(mutableListOf())
+  val movies: MutableStateFlow<List<Movie>> = MutableStateFlow(mutableListOf())
   val moviePageStateFlow: MutableStateFlow<Int> = MutableStateFlow(1)
 
   val searchResult: MutableStateFlow<List<Movie>> = MutableStateFlow(mutableListOf())
@@ -48,32 +48,35 @@ class MainViewModel @Inject constructor(
 
   val selectedGenres = arrayListOf<Int>()
 
-  val genresVisibility: MutableStateFlow<Boolean> = MutableStateFlow(false)
-
   val searchActive: MutableStateFlow<Boolean> = MutableStateFlow(false)
+
+  val query = mutableStateOf("")
 
   private val newMovieFlow = moviePageStateFlow.flatMapLatest {
     _movieLoadingState.value = NetworkState.LOADING
     discoverRepository.loadMovies(
       page = it,
-      success = { _movieLoadingState.value = NetworkState.SUCCESS },
-      error = { _movieLoadingState.value = NetworkState.ERROR }
+      success = {
+        _movieLoadingState.value = NetworkState.SUCCESS
+      },
+      error = {
+
+        _movieLoadingState.value = NetworkState.ERROR
+      }
     )
   }.shareIn(viewModelScope, SharingStarted.WhileSubscribed(), replay = 1)
 
   init {
     viewModelScope.launch(Dispatchers.IO) {
       newMovieFlow.collectLatest {
-        movies.value.addAll(it)
+
+        movies.value = it
       }
     }
     viewModelScope.launch(Dispatchers.IO) {
 
       genreRepository.loadGenreList(
-        success = {
-        },
-        error = {
-        }
+        success = {}, error = {}
       ).collectLatest {
         _genres.value = it
       }
@@ -89,14 +92,13 @@ class MainViewModel @Inject constructor(
     selectedGenresStateFlow.value = selectedGenres.toList()
   }
 
-  fun searchMovies(name: String) {
+  fun searchMovies() {
     viewModelScope.launch(Dispatchers.IO) {
       searchActive.value = true
-      genresVisibility.value = true
       _movieLoadingState.value = NetworkState.LOADING
       if (selectedGenres.isEmpty()) {
         discoverRepository.searchMovies(
-          name.trim(),
+          query.value.trim(),
           success = { _movieLoadingState.value = NetworkState.SUCCESS },
           error = { _movieLoadingState.value = NetworkState.ERROR }
         ).collectLatest {
@@ -104,7 +106,7 @@ class MainViewModel @Inject constructor(
         }
       } else {
         discoverRepository.searchMoviesWithGenre(
-          name.trim(),
+          query.value.trim(),
           selectedGenres,
           success = { _movieLoadingState.value = NetworkState.SUCCESS },
           error = { _movieLoadingState.value = NetworkState.ERROR }
